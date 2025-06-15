@@ -1,4 +1,5 @@
 import { useState } from "react";
+import "../Quiz.css";
 
 const questions = [
   {
@@ -33,10 +34,12 @@ export default function Quiz() {
   const [score, setScore] = useState(0);
   const [showResult, setShowResult] = useState(false);
   const [passwordInput, setPasswordInput] = useState("");
+  const [results, setResults] = useState([]); // Ny lista för att lagra resultat
 
   function handleOptionClick(index) {
-    setSelected(index);
-    if (index === questions[current].answer) {
+    const isCorrect = index === questions[current].answer;
+    setResults([...results, { question: questions[current].question, isCorrect }]);
+    if (isCorrect) {
       setScore(score + 1);
     }
     setCurrent(current + 1);
@@ -53,11 +56,11 @@ export default function Quiz() {
   }
 
   function handleFinishQuiz() {
-    let finalScore = score;
-    if (validatePassword(passwordInput)) {
-      finalScore += 1; // Lägg till poäng för starkt lösenord
+    const isPasswordStrong = validatePassword(passwordInput);
+    setResults([...results, { question: "Bedömning av lösenord", isCorrect: isPasswordStrong }]);
+    if (isPasswordStrong) {
+      setScore(score + 1);
     }
-    setScore(finalScore);
     setShowResult(true);
   }
 
@@ -79,9 +82,13 @@ export default function Quiz() {
           <div>
             <p>{questions[current].question}</p>
             {questions[current].options.map((option, index) => (
-              <button key={index} onClick={() => handleOptionClick(index)}>
-                {option}
-              </button>
+           <button 
+           key={index} 
+           onClick={() => handleOptionClick(index)} 
+           className="answer-button"
+         >
+           {option}
+         </button>
             ))}
           </div>
         )
@@ -91,7 +98,17 @@ export default function Quiz() {
         </div>
       )}
       {showResult && (
-        <p>Din poäng: {score} av {questions.length}</p>
+        <div>
+          <p>Din poäng: {score} av {questions.length}</p>
+          <h2>Resultat:</h2>
+          <ul>
+            {results.map((result, index) => (
+              <li key={index}>
+                {result.question} - {result.isCorrect ? "Rätt" : "Fel"}
+              </li>
+            ))}
+          </ul>
+        </div>
       )}
     </div>
   );
