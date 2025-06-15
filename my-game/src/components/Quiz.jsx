@@ -21,6 +21,10 @@ const questions = [
     ],
     answer: 1,
   },
+  {
+    question: "Skriv in ett lösenord för att bedöma dess säkerhet:",
+    type: "input",
+  },
 ];
 
 export default function Quiz() {
@@ -28,57 +32,66 @@ export default function Quiz() {
   const [selected, setSelected] = useState(null);
   const [score, setScore] = useState(0);
   const [showResult, setShowResult] = useState(false);
+  const [passwordInput, setPasswordInput] = useState("");
 
   function handleOptionClick(index) {
     setSelected(index);
     if (index === questions[current].answer) {
       setScore(score + 1);
     }
-    setShowResult(true);
-  }
-
-  function handleNext() {
-    setSelected(null);
-    setShowResult(false);
     setCurrent(current + 1);
   }
 
-  if (current >= questions.length) {
-    return <div>
-      <h2>Spelet klart!</h2>
-      <p>Din poäng: {score} / {questions.length}</p>
-    </div>;
+  function handlePasswordInputChange(event) {
+    setPasswordInput(event.target.value);
+  }
+
+  function validatePassword(password) {
+    const isLongEnough = password.length >= 8;
+    const hasSpecialChar = /[!@#$%^&*]/.test(password);
+    return isLongEnough && hasSpecialChar;
+  }
+
+  function handleFinishQuiz() {
+    let finalScore = score;
+    if (validatePassword(passwordInput)) {
+      finalScore += 1; // Lägg till poäng för starkt lösenord
+    }
+    setScore(finalScore);
+    setShowResult(true);
   }
 
   return (
     <div>
-      <h2>{questions[current].question}</h2>
-      <ul>
-        {questions[current].options.map((option, i) => (
-          <li key={i}>
-            <button
-              disabled={showResult}
-              onClick={() => handleOptionClick(i)}
-              style={{
-                backgroundColor:
-                  showResult
-                    ? i === questions[current].answer
-                      ? "lightgreen"
-                      : i === selected
-                      ? "salmon"
-                      : ""
-                    : "",
-              }}
-            >
-              {option}
-            </button>
-          </li>
-        ))}
-      </ul>
+      <h1>Quiz</h1>
+      {current < questions.length ? (
+        questions[current].type === "input" ? (
+          <div>
+            <p>{questions[current].question}</p>
+            <input
+              type="password"
+              value={passwordInput}
+              onChange={handlePasswordInputChange}
+            />
+            <button onClick={() => setCurrent(current + 1)}>Nästa fråga</button>
+          </div>
+        ) : (
+          <div>
+            <p>{questions[current].question}</p>
+            {questions[current].options.map((option, index) => (
+              <button key={index} onClick={() => handleOptionClick(index)}>
+                {option}
+              </button>
+            ))}
+          </div>
+        )
+      ) : (
+        <div>
+          <button onClick={handleFinishQuiz}>Visa resultat</button>
+        </div>
+      )}
       {showResult && (
-        <button onClick={handleNext}>
-          Nästa fråga
-        </button>
+        <p>Din poäng: {score} av {questions.length}</p>
       )}
     </div>
   );
