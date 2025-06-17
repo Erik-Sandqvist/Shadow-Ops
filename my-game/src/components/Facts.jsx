@@ -9,7 +9,7 @@ export default function Facts() {
       <h3>What Is a Strong Password?</h3>
       <p>A strong password is one that is difficult to guess or crack, even by automated tools. It should:</p>
       <ul>
-        <li>Be at least 12 characters long</li>
+        <li>Be at least 8 characters long but more is good</li>
         <li>Include a mix of uppercase and lowercase letters</li>
         <li>Contain numbers and special characters (e.g., !, @, #, $)</li>
         <li>Avoid easily guessable information such as your name, birthdate, or common words</li>
