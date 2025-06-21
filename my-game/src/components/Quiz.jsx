@@ -3,7 +3,7 @@ import "../Quiz.css";
 
 const questions = [
   {
-    question: "Vilket är ett säkert lösenord?",
+    question: "Which is a secure password?",
     options: [
       "123456",
       "password",
@@ -13,17 +13,27 @@ const questions = [
     answer: 2,
   },
   {
-    question: "Vad bör du aldrig dela med andra?",
+    question: "Why is it a bad idea to share your password with someone, even if you trust them?",
     options: [
-      "Din favoritfärg",
-      "Ditt lösenord",
-      "Vad du åt till lunch",
-      "Din favoritfilm",
+      "It may be inconvenient for the other person",
+      "They might forget it",
+      "It violates most email providers' terms",
+      "It increases the risk of data misuse or accidental exposure",
     ],
-    answer: 1,
+    answer: 3,
   },
   {
-    question: "Skriv in ett lösenord för att bedöma dess säkerhet:",
+    question: "What is one recommended feature of a strong password?",
+    options: [
+      "It includes your birthdate for easy recall",
+      "It uses only lowercase letters to stay simple",
+      "It is at least 8 characters long and includes special characters",
+      "It contains dictionary words for clarity",
+    ],
+    answer: 2,
+  },
+  {
+    question: "Enter a password to assess its strength:",
     type: "input",
   },
 ];
@@ -34,7 +44,7 @@ export default function Quiz() {
   const [score, setScore] = useState(0);
   const [showResult, setShowResult] = useState(false);
   const [passwordInput, setPasswordInput] = useState("");
-  const [results, setResults] = useState([]); // Ny lista för att lagra resultat
+  const [results, setResults] = useState([]);
 
   function handleOptionClick(index) {
     const isCorrect = index === questions[current].answer;
@@ -42,7 +52,11 @@ export default function Quiz() {
     if (isCorrect) {
       setScore(score + 1);
     }
-    setCurrent(current + 1);
+    if (current === questions.length - 1) {
+      setShowResult(true); // Visa resultat direkt när sista frågan besvaras
+    } else {
+      setCurrent(current + 1);
+    }
   }
 
   function handlePasswordInputChange(event) {
@@ -57,15 +71,24 @@ export default function Quiz() {
 
   function handleFinishQuiz() {
     const isPasswordStrong = validatePassword(passwordInput);
-    setResults([...results, { question: "Bedömning av lösenord", isCorrect: isPasswordStrong }]);
+    setResults([...results, { question: "Password strength assessment", isCorrect: isPasswordStrong }]);
     if (isPasswordStrong) {
       setScore(score + 1);
     }
     setShowResult(true);
   }
 
+  function handleRestartQuiz() {
+    setCurrent(0);
+    setSelected(null);
+    setScore(0);
+    setShowResult(false);
+    setPasswordInput("");
+    setResults([]);
+  }
+
   return (
-    <div>
+    <div className="quiz-container">
       <h1>Quiz</h1>
       {current < questions.length ? (
         questions[current].type === "input" ? (
@@ -75,39 +98,37 @@ export default function Quiz() {
               type="password"
               value={passwordInput}
               onChange={handlePasswordInputChange}
+              className="quiz-input"
             />
-            <button onClick={() => setCurrent(current + 1)}>Nästa fråga</button>
+            <button onClick={handleFinishQuiz} className="answer-button">Next Question</button>
           </div>
         ) : (
           <div>
             <p>{questions[current].question}</p>
             {questions[current].options.map((option, index) => (
-           <button 
-           key={index} 
-           onClick={() => handleOptionClick(index)} 
-           className="answer-button"
-         >
-           {option}
-         </button>
+              <button 
+                key={index} 
+                onClick={() => handleOptionClick(index)} 
+                className="answer-button"
+              >
+                {option}
+              </button>
             ))}
           </div>
         )
-      ) : (
-        <div>
-          <button onClick={handleFinishQuiz}>Visa resultat</button>
-        </div>
-      )}
+      ) : null}
       {showResult && (
         <div>
-          <p>Din poäng: {score} av {questions.length}</p>
-          <h2>Resultat:</h2>
+          <p>Your score: {score} out of {questions.length}</p>
+          <h2>Results:</h2>
           <ul>
             {results.map((result, index) => (
               <li key={index}>
-                {result.question} - {result.isCorrect ? "Rätt" : "Fel"}
+                {result.question} - {result.isCorrect ? "Correct" : "Incorrect"}
               </li>
             ))}
           </ul>
+          <button onClick={handleRestartQuiz} className="answer-button">Restart Quiz</button>
         </div>
       )}
     </div>
