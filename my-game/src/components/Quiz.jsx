@@ -130,6 +130,7 @@ export default function Quiz() {
             ))}
           </ul>
           <button onClick={handleRestartQuiz} className="answer-button">Restart Quiz</button>
+          <button onClick={() => window.location.reload()} className="answer-button">Back to facts</button> {/* Ny knapp */}
         </div>
       )}
     </div>
