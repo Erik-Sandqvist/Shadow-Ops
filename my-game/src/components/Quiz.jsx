@@ -90,40 +90,41 @@ export default function Quiz() {
   return (
     <div className="quiz-container">
       <h1>Quiz</h1>
-      {current < questions.length ? (
-        questions[current].type === "input" ? (
-          <div>
-            <p>{questions[current].question}</p>
-            <input
-              type="password"
-              value={passwordInput}
-              onChange={handlePasswordInputChange}
-              className="quiz-input"
-            />
-            <button onClick={handleFinishQuiz} className="answer-button">Next Question</button>
-          </div>
-        ) : (
-          <div>
-            <p>{questions[current].question}</p>
-            {questions[current].options.map((option, index) => (
-              <button 
-                key={index} 
-                onClick={() => handleOptionClick(index)} 
-                className="answer-button"
-              >
-                {option}
-              </button>
-            ))}
-          </div>
-        )
-      ) : null}
-      {showResult && (
-        <div>
+      {!showResult ? (
+        current < questions.length ? (
+          questions[current].type === "input" ? (
+            <div>
+              <p>{questions[current].question}</p>
+              <input
+                type="password"
+                value={passwordInput}
+                onChange={handlePasswordInputChange}
+                className="quiz-input"
+              />
+              <button onClick={handleFinishQuiz} className="answer-button">Next Question</button>
+            </div>
+          ) : (
+            <div>
+              <p>{questions[current].question}</p>
+              {questions[current].options.map((option, index) => (
+                <button 
+                  key={index} 
+                  onClick={() => handleOptionClick(index)} 
+                  className="answer-button"
+                >
+                  {option}
+                </button>
+              ))}
+            </div>
+          )
+        ) : null
+      ) : (
+        <div className="quiz-result">
           <p>Your score: {score} out of {questions.length}</p>
           <h2>Results:</h2>
-          <ul>
+          <ul className="quiz-summary">
             {results.map((result, index) => (
-              <li key={index}>
+              <li key={index} className={result.isCorrect ? "correct" : "incorrect"}>
                 {result.question} - {result.isCorrect ? "Correct" : "Incorrect"}
               </li>
             ))}

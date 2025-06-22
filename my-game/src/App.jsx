@@ -18,7 +18,7 @@ export default function App() {
           <Facts />
           <button
             onClick={() => setShowQuiz(true)}
-           
+           className="start"
           >
             Start Quiz
           </button>

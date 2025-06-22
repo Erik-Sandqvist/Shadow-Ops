@@ -23,7 +23,7 @@
   background-color: #c2fbd7;
   border-radius: 100px;
   box-shadow: rgba(44, 187, 99, .2) 0 -25px 18px -14px inset,rgba(44, 187, 99, .15) 0 1px 2px,rgba(44, 187, 99, .15) 0 2px 4px,rgba(44, 187, 99, .15) 0 4px 8px,rgba(44, 187, 99, .15) 0 8px 16px,rgba(44, 187, 99, .15) 0 16px 32px;
-  color: green;
+  color: rgb(5, 80, 5);
   cursor: pointer;
   display: inline-block;
   font-family: CerebriSans-Regular,-apple-system,system-ui,Roboto,sans-serif;
@@ -42,7 +42,7 @@
     background-color: #c2fbd7;
     border-radius: 100px;
     box-shadow: rgba(44, 187, 99, .2) 0 -25px 18px -14px inset,rgba(44, 187, 99, .15) 0 1px 2px,rgba(44, 187, 99, .15) 0 2px 4px,rgba(44, 187, 99, .15) 0 4px 8px,rgba(44, 187, 99, .15) 0 8px 16px,rgba(44, 187, 99, .15) 0 16px 32px;
-    color: green;
+    color: rgb(5, 80, 5);
     cursor: pointer;
     display: inline-block;
     font-family: CerebriSans-Regular,-apple-system,system-ui,Roboto,sans-serif;
@@ -51,7 +51,7 @@
     text-decoration: none;
     transition: all 250ms;
     border: 0;
-    font-size: 16px;
+    font-size: 14px;
     user-select: none;
     -webkit-user-select: none;
     touch-action: manipulation;
@@ -71,12 +71,34 @@
   
   .quiz-summary {
     margin-top: 2rem;
+    font-size: 2vw;
   }
   
   .correct {
     color: green;
+    font-size: 2vw;
   }
   
   .incorrect {
     color: red;
+    font-size: 2vw;
   }
+
+  @media (max-width: 768px) {
+    .answer-button {
+       height: 4.5em;
+      }
+      .answer-button:hover {
+        box-shadow: none; /* Ta bort box-shadow */
+        transform: none; /* Ta bort transform-effekten */
+      }
+      .correct {
+        color: green;
+        font-size: 4vw;
+      }
+      
+      .incorrect {
+        color: red;
+        font-size: 4vw;
+      }
+}
