@@ -1,7 +1,9 @@
-// FILE: Facts.jsx
+import React from "react";
+import "../Facts.css"; 
+
 export default function Facts() {
   return (
-    <div style={{ padding: "1rem", fontFamily: "Arial, sans-serif" }}>
+    <div className="facts-container">
       <h2>Password Hygiene: Best Practices for Strong and Secure Passwords</h2>
       <p>
         Maintaining good password hygiene is essential for protecting your personal and professional data. Poor password habits are one of the most common reasons behind security breaches. Below are some key guidelines to help you understand and practice strong password hygiene.

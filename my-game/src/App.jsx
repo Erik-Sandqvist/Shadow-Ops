@@ -9,10 +9,8 @@ export default function App() {
     <div
       className="App"
       style={{
-        padding: "2rem",
         fontFamily: "Arial, sans-serif",
-        margin: "0 auto",
-        width: "50%",
+        width: "100%",
       }}
     >
       {!showQuiz ? (
@@ -20,21 +18,13 @@ export default function App() {
           <Facts />
           <button
             onClick={() => setShowQuiz(true)}
-            style={{
-              marginTop: "1rem",
-              padding: "0.5rem 1rem",
-              backgroundColor: "lightblue",
-              border: "none",
-              borderRadius: "5px",
-              cursor: "pointer",
-            }}
+           className="start"
           >
-            Starta Quiz
+            Start Quiz
           </button>
         </div>
       ) : (
         <div>
-          <h1>Password Hygiene Quiz</h1>
           <Quiz />
         </div>
       )}
